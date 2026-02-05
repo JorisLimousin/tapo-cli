@@ -174,7 +174,7 @@ def login(username, password):
     """Authenticates a user towards the TP-Link Tapo Cloud."""
     terminal_uuid = str(uuid.uuid1()).replace('-','').upper()
 
-    url = 'https://n-wap-gw.tplinkcloud.com/api/v2/account/login'
+    url = 'https://n-euw1-wap-gw.tplinkcloud.com/api/v2/account/login'
     content = {"appType":"TP-Link_Tapo_Android","appVersion":"2.12.705","cloudPassword":password,"cloudUserName":username,"platform":"Android 12","refreshTokenNeeded":False,"terminalMeta":"1","terminalName":"Tapo CLI","terminalUUID":terminal_uuid}
     content = json.dumps(content)
     res = post(url, content, headers_post(content, '/api/v2/account/login'))
@@ -186,7 +186,7 @@ def login(username, password):
     # Login but with extra steps
     if 'MFAProcessId' in config:
         mfa_process_id = res['result']['MFAProcessId']
-        url = 'https://n-wap-gw.tplinkcloud.com/api/v2/account/getPushVC4TerminalMFA'
+        url = 'https://n-euw1-wap-gw.tplinkcloud.com/api/v2/account/getPushVC4TerminalMFA'
         content = {"appType":"TP-Link_Tapo_Android","cloudPassword":password,"cloudUserName":username,"terminalUUID":terminal_uuid}
         content = json.dumps(content)
         res = post(url, content, headers_post(content, '/api/v2/account/getPushVC4TerminalMFA'))
@@ -196,7 +196,7 @@ def login(username, password):
         print('Check your Tapo App for the MFA code!')
         mfa_code = str(input('MFA Code (no spaces or dashes): '))
     
-        url = 'https://n-wap-gw.tplinkcloud.com/api/v2/account/checkMFACodeAndLogin'
+        url = 'https://n-euw1-wap-gw.tplinkcloud.com/api/v2/account/checkMFACodeAndLogin'
         content = {"appType":"TP-Link_Tapo_Android","cloudUserName":username,"code":mfa_code,"MFAProcessId":mfa_process_id,"MFAType":1,"terminalBindEnabled":True}
         content = json.dumps(content)
         res = post(url, content, headers_post(content, '/api/v2/account/checkMFACodeAndLogin'))
